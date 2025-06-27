@@ -1,0 +1,135 @@
+import streamlit as st
+import numpy as np
+import qutip
+st.set_page_config(page_title="Larmor Precession")
+st.sidebar.header("Larmor Precession")
+#Default:
+aDefault=1
+bDefault=0
+
+a=aDefault
+b=bDefault
+
+
+with st.popover("Change Initial State"):
+    Random=st.checkbox("Randomize")
+    Normalize=False
+    Error=False
+    if Random==False:
+        placeholder=st.empty()
+        with placeholder.container():
+            st.markdown(r"Initial State: $a|0 \rangle$+$b|1 \rangle$")
+            st.markdown("Use j for complex numbers (For example, 2+3j)")
+            st.markdown("We will do the normalization for you :)")
+            a = st.text_input("a=", key="aval")
+            b = st.text_input("b=", key='bval')
+            if b and a:
+                try:
+                    b=complex(b)
+                    a=complex(a)
+                except:
+                    st.error("Invalid Input!!!")
+                    a=aDefault
+                    b=bDefault
+                    Error=True
+                norm = np.sqrt(abs(a)**2+abs(b)**2)
+                a = a/norm
+                b = b/norm
+    else:
+        Randomize=st.button("Randomize")
+        if Randomize==True:
+            a = np.random.uniform(-1, 1) + 1.j * np.random.uniform(-1, 1)
+            b = np.random.uniform(-1, 1) + 1.j * np.random.uniform(-1, 1)
+            norm=np.sqrt(abs(a)**2+abs(b)**2)
+            a=a/norm
+            b=b/norm
+            st.markdown(rf"Initial State:${a}|0 \rangle$+${b}|1 \rangle$")
+
+st.markdown(rf"Initial State: ${a}|0 \rangle$+${b}|1 \rangle$")
+
+st.markdown(r"External B-field:$B_0+B_1\cos(\omega t)$")
+B0 = st.select_slider(
+    "$B_0$",
+    options=[
+        1000,
+        1100,
+        1200,
+        1300,
+        1400,
+        1500,
+        1600,
+        1700,
+        1800,
+        1900,
+        2000
+    ],)
+
+B1 = st.select_slider(
+    "$B_1$",
+    options=[
+        0,
+        500,
+        600,
+        700,
+        800,
+        900,
+        1000,
+    ],)
+
+omega = st.select_slider(
+    "$\omega$",
+    options=[
+        10,
+        20,
+        30,
+        40,
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+    ],)
+
+T = st.select_slider(
+    "Time",
+    options=[
+        5,
+        10,
+        15,
+        20
+    ],)
+
+open = st.checkbox("Open Quantum System")
+if open == True:
+    gamma = st.select_slider(
+    "Decay rate",
+    options=[
+        0.5,
+        0.75,
+        1.0,
+        1.25,
+        1.5,
+        1.75,
+        2.0
+
+    ],)
+
+    c_ops = [np.sqrt(gamma)*qutip.operators.destroy(2)]  
+else:
+    c_ops=[]
+
+Produce = st.button("Produce Sound")
+if Produce == True:
+    with st.status("Producing...", expanded=False) as status:
+        psi = (a* qutip.basis(2, 0) + b*qutip.basis(2, 1)).unit()
+        def periodic (t, args):
+            return B0+B1*np.cos(1*t)
+        times = np.linspace(0, T, 44100*T)
+        H = qutip.QobjEvo([[qutip.sigmaz(), periodic]], tlist=times)
+        result = qutip.mesolve(H, psi, times, c_ops, [qutip.sigmay()])
+        expectation=result.expect[0]
+        st.audio(expectation, sample_rate=44100)
+        status.update(
+        label="Completed!", state="complete", expanded=True
+    )
