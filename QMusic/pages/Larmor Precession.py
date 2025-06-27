@@ -7,10 +7,6 @@ st.sidebar.header("Larmor Precession")
 aDefault=1
 bDefault=0
 
-a=aDefault
-b=bDefault
-
-
 with st.popover("Change Initial State"):
     Random=st.checkbox("Randomize")
     Normalize=False
@@ -44,6 +40,10 @@ with st.popover("Change Initial State"):
             a=a/norm
             b=b/norm
             st.markdown(rf"Initial State:${a}|0 \rangle$+${b}|1 \rangle$")
+
+if a=="" or b=="":
+    a=aDefault
+    b=bDefault
 
 st.markdown(rf"Initial State: ${a}|0 \rangle$+${b}|1 \rangle$")
 
