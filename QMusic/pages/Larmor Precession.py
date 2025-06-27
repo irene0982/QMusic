@@ -1,20 +1,32 @@
 import streamlit as st
 import numpy as np
 import qutip
+import io
+import soundfile as sf
+
 st.set_page_config(page_title="Larmor Precession")
 st.sidebar.header("Larmor Precession")
 #Default:
-aDefault=1
-bDefault=0
+aDefault=1/np.sqrt(2)
+bDefault=1/np.sqrt(2)
+
+with st.expander("How It Works?"):
+    st.write(''' **For non-physicists**: In classical computing, information is encoded in binary numbers. Each binary digit is a **bit**.
+             In quantum computing, the basic unit is a **qubit**. Unlike a bit, a qubit can exist as a combination of $0$ and $1$, with certain probabilities.
+             A qubit can be realized by using a two-level quantum mechanical system. When a magnetic field is applied, the qubit state starts to precess.
+             We simulate this quantum precession, or the so-called **Larmor precession**, and map the precession to sound.
+             By adjusting the parameters of the magnetic field, we get different musical tones. :musical_note:
+    ''')
 
 with st.popover("Change Initial State"):
+    st.markdown(r"Note that if you start with $|0 \rangle$ or $|1 \rangle$, you are not going to hear anything :(")
     Random=st.checkbox("Randomize")
     Normalize=False
     Error=False
     if Random==False:
         placeholder=st.empty()
         with placeholder.container():
-            st.markdown(r"Initial State: $a|0 \rangle$+$b|1 \rangle$")
+            st.markdown(r"Initial State: $a|0 \rangle + b|1 \rangle$")
             st.markdown("Use j for complex numbers (For example, 2+3j)")
             st.markdown("We will do the normalization for you :)")
             a = st.text_input("a=", key="aval")
@@ -130,6 +142,17 @@ if Produce == True:
         result = qutip.mesolve(H, psi, times, c_ops, [qutip.sigmay()])
         expectation=result.expect[0]
         st.audio(expectation, sample_rate=44100)
+        audio=np.int16(expectation/np.max(np.abs(expectation))*32767)
+        buffer = io.BytesIO()
+        sf.write(buffer, audio, samplerate=44100, format='WAV', subtype='PCM_16')
+        buffer.seek(0)
+        st.download_button(
+        label="Download WAV file",
+        data=buffer,
+        file_name="Sound of Larmor Precession.WAV",
+        mime="audio",
+        icon=":material/download:",
+        )
         status.update(
         label="Completed!", state="complete", expanded=True
     )
