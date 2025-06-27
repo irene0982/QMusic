@@ -1,3 +1,2 @@
 qutip
 io
-soundfile
