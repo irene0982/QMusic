@@ -52,8 +52,12 @@ with st.popover("Change Initial State"):
             a=a/norm
             b=b/norm
             st.markdown(fr"Initial State:${a}|0 \rangle+{b}|1 \rangle$")
-
-if a=="" or b=="" or a==None or b==None:
+try:
+    a and b
+except:
+    a=aDefault
+    b=bDefault
+if a=="" or b=="":
     a=aDefault
     b=bDefault
 
