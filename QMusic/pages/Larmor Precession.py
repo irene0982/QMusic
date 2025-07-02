@@ -44,6 +44,8 @@ with st.popover("Change Initial State"):
                 a = a/norm
                 b = b/norm
     else:
+        a=""
+        b=""
         Randomize=st.button("Randomize")
         if Randomize==True:
             a = np.random.uniform(-1, 1) + 1.j * np.random.uniform(-1, 1)
