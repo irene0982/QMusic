@@ -23,8 +23,6 @@ with st.popover("Change Initial State"):
     Random=st.checkbox("Randomize")
     Normalize=False
     Error=False
-    a=''
-    b=''
     if Random==False:
         placeholder=st.empty()
         with placeholder.container():
@@ -51,14 +49,11 @@ with st.popover("Change Initial State"):
             a = np.random.uniform(-1, 1) + 1.j * np.random.uniform(-1, 1)
             b = np.random.uniform(-1, 1) + 1.j * np.random.uniform(-1, 1)
             norm=np.sqrt(abs(a)**2+abs(b)**2)
-
-
-            
             a=a/norm
             b=b/norm
             st.markdown(fr"Initial State:${a}|0 \rangle+{b}|1 \rangle$")
 
-if a=="" or b=="":
+if a=="" or b=="" or a==None or b==None:
     a=aDefault
     b=bDefault
 
