@@ -44,6 +44,8 @@ with st.popover("Change Initial State"):
                 a = a/norm
                 b = b/norm
     else:
+        a=''
+        b=''
         Randomize=st.button("Randomize")
         if Randomize==True:
             a = np.random.uniform(-1, 1) + 1.j * np.random.uniform(-1, 1)
@@ -51,12 +53,8 @@ with st.popover("Change Initial State"):
             norm=np.sqrt(abs(a)**2+abs(b)**2)
             a=a/norm
             b=b/norm
-            st.markdown(fr"Initial State:${a}|0 \rangle+{b}|1 \rangle$")
-try:
-    a and b
-except:
-    a=aDefault
-    b=bDefault
+            st.markdown(rf"Initial State:${a}|0 \rangle+{b}|1 \rangle$")
+
 if a=="" or b=="":
     a=aDefault
     b=bDefault
@@ -84,27 +82,30 @@ B1 = st.select_slider(
     "$B_1$",
     options=[
         0,
+        100,
+        200,
+        300,
+        400,
         500,
-        600,
-        700,
-        800,
-        900,
-        1000,
+        600
     ],)
 
 omega = st.select_slider(
     "$\omega$",
     options=[
-        10,
-        20,
-        30,
-        40,
-        50,
         60,
-        70,
         80,
-        90,
-        100
+        100,
+        120,
+        140,
+        160,
+        180,
+        200,
+        220,
+        240,
+        260,
+        280,
+        300
     ],)
 
 T = st.select_slider(
@@ -140,7 +141,7 @@ if Produce == True:
     with st.status("Producing...", expanded=False) as status:
         psi = (a* qutip.basis(2, 0) + b*qutip.basis(2, 1)).unit()
         def periodic (t, args):
-            return B0+B1*np.cos(omega*t)
+            return B0+B1*np.sin(omega*t)
         times = np.linspace(0, T, 44100*T)
         H = qutip.QobjEvo([[qutip.sigmaz(), periodic]], tlist=times)
         result = qutip.mesolve(H, psi, times, c_ops, [qutip.sigmay()])
