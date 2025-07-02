@@ -44,8 +44,8 @@ with st.popover("Change Initial State"):
                 a = a/norm
                 b = b/norm
     else:
-        a=aDefault
-        b=bDefault
+        a=""
+        b=""
         Randomize=st.button("Randomize")
         if Randomize==True:
             a = np.random.uniform(-1, 1) + 1.j * np.random.uniform(-1, 1)
@@ -53,13 +53,13 @@ with st.popover("Change Initial State"):
             norm=np.sqrt(abs(a)**2+abs(b)**2)
             a=a/norm
             b=b/norm
-            st.markdown(rf"Initial State:${a}|0 \rangle$+${b}|1 \rangle$")
+            st.markdown(rf"Initial State:{a}$|0 \rangle$+{b}$|1 \rangle$")
 
 if a=="" or b=="":
     a=aDefault
     b=bDefault
 
-st.markdown(rf"Initial State: ${a}|0 \rangle$+${b}|1 \rangle$")
+st.markdown(rf"Initial State: {a}$|0 \rangle$+{b}$|1 \rangle$")
 
 st.markdown(r"External B-field:$B_0+B_1\cos(\omega t)$")
 B0 = st.select_slider(
