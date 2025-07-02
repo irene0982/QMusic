@@ -52,8 +52,9 @@ with st.popover("Change Initial State"):
             b = np.random.uniform(-1, 1) + 1.j * np.random.uniform(-1, 1)
             norm=np.sqrt(abs(a)**2+abs(b)**2)
             a=a/norm
+            st.markdown(a)
             b=b/norm
-            st.markdown(rf"Initial State:${a}|0 \rangle+{b}|1 \rangle$")
+            st.markdown(fr"Initial State:${a}|0 \rangle+{b}|1 \rangle$")
 
 if a=="" or b=="":
     a=aDefault
