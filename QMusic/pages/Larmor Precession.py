@@ -140,7 +140,7 @@ if Produce == True:
     with st.status("Producing...", expanded=False) as status:
         psi = (a* qutip.basis(2, 0) + b*qutip.basis(2, 1)).unit()
         def periodic (t, args):
-            return B0+B1*np.cos(1*t)
+            return B0+B1*np.cos(omega*t)
         times = np.linspace(0, T, 44100*T)
         H = qutip.QobjEvo([[qutip.sigmaz(), periodic]], tlist=times)
         result = qutip.mesolve(H, psi, times, c_ops, [qutip.sigmay()])
