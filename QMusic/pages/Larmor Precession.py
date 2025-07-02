@@ -10,9 +10,6 @@ st.sidebar.header("Larmor Precession")
 aDefault=1/np.sqrt(2)
 bDefault=1/np.sqrt(2)
 
-a=""
-b=""
-
 with st.expander("How It Works?"):
     st.write(''' **For non-physicists**: In classical computing, information is encoded in binary numbers. Each binary digit is a **bit**.
              In quantum computing, the basic unit is a **qubit**. Unlike a bit, a qubit can exist as a combination of $0$ and $1$, with certain probabilities.
@@ -47,6 +44,8 @@ with st.popover("Change Initial State"):
                 a = a/norm
                 b = b/norm
     else:
+        a=aDefault
+        b=bDefault
         Randomize=st.button("Randomize")
         if Randomize==True:
             a = np.random.uniform(-1, 1) + 1.j * np.random.uniform(-1, 1)
