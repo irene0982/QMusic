@@ -9,7 +9,8 @@ st.sidebar.header("Larmor Precession")
 #Default:
 aDefault=1/np.sqrt(2)
 bDefault=1/np.sqrt(2)
-
+a=""
+b=""
 with st.expander("How It Works?"):
     st.write(''' **For non-physicists**: In classical computing, information is encoded in binary numbers. Each binary digit is a **bit**.
              In quantum computing, the basic unit is a **qubit**. Unlike a bit, a qubit can exist as a combination of $0$ and $1$, with certain probabilities.
