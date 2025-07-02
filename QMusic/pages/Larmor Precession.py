@@ -51,8 +51,10 @@ with st.popover("Change Initial State"):
             a = np.random.uniform(-1, 1) + 1.j * np.random.uniform(-1, 1)
             b = np.random.uniform(-1, 1) + 1.j * np.random.uniform(-1, 1)
             norm=np.sqrt(abs(a)**2+abs(b)**2)
+
+
+            
             a=a/norm
-            st.markdown(a)
             b=b/norm
             st.markdown(fr"Initial State:${a}|0 \rangle+{b}|1 \rangle$")
 
