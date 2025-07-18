@@ -275,7 +275,7 @@ if noise==True:
 if dim == "***1D Chain***":
     space_dependentH = 0*qutip.tensor([qutip.qeye(2) for _ in range(num_qubit)])
     obs_sum = space_dependentH
-    for i in range(1, num_qubit):
+    for i in range(num_qubit):
         sx_i=qutip.tensor([qutip.sigmax() if j==i else qutip.qeye(2) for j in range(num_qubit)])
         sy_i=qutip.tensor([qutip.sigmay() if j==i else qutip.qeye(2) for j in range(num_qubit)])
         sz_i=qutip.tensor([qutip.sigmaz() if j==i else qutip.qeye(2) for j in range(num_qubit)])
