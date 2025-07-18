@@ -41,8 +41,8 @@ dim = st.radio(
         "For now the 2D lattice is assumed to have 4 spins."
     ],
 )
-image_path1 = os.path.join(script_dir, "spinChain.jpg")
-image_path2 = os.path.join(script_dir, "spinLattice.jpg")
+image_path1 = os.path.join(os.path.dirname(__file__), "spinChain.jpg")
+image_path2 = os.path.join(os.path.dirname(__file__), "spinLattice.jpg")
 
 if dim == "***1D Chain***":
     st.image(image_path1, caption="1D Spin Chain Diagram")
