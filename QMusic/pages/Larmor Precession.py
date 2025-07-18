@@ -40,16 +40,18 @@ dim = st.radio(
         "For now the 2D lattice is assumed to have 4 spins."
     ],
 )
+image_path1 = os.path.join(script_dir, "spinChain.jpg")
+image_path2 = os.path.join(script_dir, "spinLattice.jpg")
 
 if dim == "***1D Chain***":
-    st.image("spinChain.jpg", caption="1D Spin Chain Diagram")
+    st.image(image_path1, caption="1D Spin Chain Diagram")
     num_qubit = st.select_slider(
         "Number of qubits",
         options = [1, 2, 3, 4]
     )
 else:
     num_qubit = 4
-    st.image("spinLattice.jpg", caption="2D Spin Lattice Diagram")
+    st.image(image_path2, caption="2D Spin Lattice Diagram")
 
 factor_default = 1/np.sqrt(2**num_qubit)
 initstate_default = np.ones(2**num_qubit)*factor_default
