@@ -154,8 +154,8 @@ with tab_space:
         grad = st.select_slider(
             r"$\frac{\partial B}{\partial x}$",
             options=[
+                0，
                 100,
-                0,
                 150,
                 200,
                 250,
