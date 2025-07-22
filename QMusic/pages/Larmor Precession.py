@@ -325,7 +325,12 @@ if option=="Sawtooth Wave":
 
 open = st.checkbox("Open Quantum System")
 
+c_ops = []
 if open == True:
+    decoherence_type = st.radio(
+        "Select Decoherence Type",
+        ["Amplitude Damping", "Phase Damping", "Both"]
+    )
     gamma = st.select_slider(
     "Decay rate",
     options=[
@@ -338,11 +343,12 @@ if open == True:
         4.0
 
     ],)
-
-    c_ops = [np.sqrt(gamma)*qutip.tensor([qutip.operators.destroy(2)]*num_qubit)]  
-    #c_ops = [np.sqrt(gamma) * qutip.sigmaz()]
-else:
-    c_ops=[]
+    if decoherence_type in ["Amplitude Damping", "Both"]:
+        amp_op = np.sqrt(gamma) * qutip.tensor([qutip.destroy(2)] * num_qubit)
+        c_ops.append(amp_op)
+    if decoherence_type in ["Phase Damping", "Both"]:
+        phase_op = np.sqrt(gamma) * qutip.tensor([qutip.sigmaz()] * num_qubit)
+        c_ops.append(phase_op)
 
 observable = st.radio("Choose an observable to measure",
         [r"$\bigotimes_{i=1}^N\sigma_y^{(i)}$", r"$\sum_{i=1}^N\sigma_y^{(i)}$"]
