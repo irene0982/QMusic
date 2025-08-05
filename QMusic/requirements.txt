@@ -1,3 +1,0 @@
-qutip
-soundfile
-scipy
